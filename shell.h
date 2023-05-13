@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-int main(int ac, char **argv);
+int main(int ac, char **av);
 int _getline(char **lineptr, size_t n, FILE *stream);
 int _atoi(char *s);
 int _isdigit(char *s);
