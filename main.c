@@ -23,7 +23,7 @@ int main(void)
 		{
 			if (feof(stdin))
 			{
-				write(STDERR_FILENO, "Error: Oh, No!!!\n", strlen("Error: Oh, No!!!\n"));
+				write(STDERR_FILENO, "Howdy!!!\n", strlen("Howdy!!!\n"));
 		}
 			free(my_lineptr);
 			return (-1);
