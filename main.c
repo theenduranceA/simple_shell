@@ -2,32 +2,40 @@
 
 /**
  * main - Entry point to shell
- * @ac: The argument count
- * @av: The argument vector
  *
  * Return: Always 0 (Success)
  */
 
-int main(int ac, char **av)
+int main(void)
 {
-	char *lineptr = NULL;
+	const char *prompt = "$ ";
+	char *my_lineptr = NULL;
 	size_t n = 0;
-	ssize_t my_read = 0;
-	(void)ac;
-	(void)av;
+	int my_count = 0;
 
 	while (1)
-
 	{
-		if (my_read == -1)
-			my_read = getline(&lineptr, &n, stdin);
-		return (-1);
-
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "\n", 1);
+			write(STDERR_FILENO, prompt, strlen(prompt));
+
+		my_count = getline(&my_lineptr, &n, stdin);
+		if (my_count == -1)
+		{
+			if (feof(stdin))
+			{
+				write(STDERR_FILENO, "Error: Oh, No!!!\n", strlen("Error: Oh, No!!!\n"));
+		}
+			free(my_lineptr);
+			return (-1);
+		}
+
+		write(STDERR_FILENO, my_lineptr, (size_t)my_count);
+		free(my_lineptr);
+		my_lineptr = NULL;
+		n = 0;
 	}
 
-	free(lineptr);
+	free(my_lineptr);
 
 	return (0);
 }
