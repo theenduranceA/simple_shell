@@ -28,8 +28,10 @@ int main(void)
 			free(my_lineptr);
 			return (-1);
 		}
-
 		write(STDERR_FILENO, my_lineptr, (size_t)my_count);
+
+		my_input(my_lineptr);
+
 		free(my_lineptr);
 		my_lineptr = NULL;
 		n = 0;
