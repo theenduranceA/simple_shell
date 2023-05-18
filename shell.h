@@ -20,6 +20,7 @@
  * @built: The name of the build in command.
  * @f: A pointer to the right builtin function.
  */
+
 typedef struct builtin_d
 {
 	char *built;
