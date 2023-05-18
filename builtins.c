@@ -1,10 +1,11 @@
 #include "shell.h"
 
 /**
- * cd_b - Changes the current working directory to the parameter passed to cd.
- * if no parameter is passed it will change directory to HOME.
+ * _cd - Changes the current working directory to the parameter passed to cd.
+ * if no parameter is passed it changes directory to HOME.
  * @line: A string representing the input from the user.
  */
+
 void _cd(char *line)
 {
 	int index;
@@ -33,10 +34,11 @@ void _cd(char *line)
 }
 
 /**
- * env_b - Prints all the environmental variables in the current shell.
+ * env_b - Function that prints environmental variables in the current shell.
  * @line: A string representing the input from the user.
  */
-void _env(__attribute__((unused))char *line)
+
+void env_b(__attribute__((unused))char *line)
 {
 	int i;
 	int j;
@@ -50,9 +52,10 @@ void _env(__attribute__((unused))char *line)
 }
 
 /**
- * exit_b - Exits the shell. After freeing allocated resources.
+ * u_exit - Function that exits the shell after freeing allocated resources.
  * @line: A string representing the input from the user.
  */
+
 void u_exit(char *line)
 {
 	free(line);
@@ -63,8 +66,9 @@ void u_exit(char *line)
 /**
  * check_built_ins - Finds the right function needed for execution.
  * @str: The name of the function that is needed.
- * Return: Upon sucess a pointer to a void function. Otherwise NULL.
+ * Return: A pointer to a void function upon Success. And NULL if otherwise.
  */
+
 void (*check_built_ins(char *str))(char *str)
 {
 	int i;
@@ -87,11 +91,12 @@ void (*check_built_ins(char *str))(char *str)
 }
 
 /**
- * built_in - Checks for builtin functions.
+ * built_in - Functin that checks for builtin functions.
  * @command: An array of all the arguments passed to the shell.
  * @line: A string representing the input from the user.
- * Return: If function is found 0. Otherwise -1.
+ * Return: 0 If function is found, -1 If otherwise.
  */
+
 int built_in(char **command, char *line)
 {
 	void (*build)(char *);

@@ -1,12 +1,14 @@
 #include "shell.h"
 
 /**
- * path_finder - Acts as an interface for functions that will be able to
- * find the full path of a program.
+ * path_finder - Function that acts as an interface for functions that
+ * will be able to find the full path of a program.
  * @command: Represents a command. For example ls, echo, pwd, etc.
+ *
  * Return: Upon sucess a string with the full path of the program.
  * for example /bin/ls, /bin/echo, etc. Otherwise returns NULL.
  */
+
 char *path_finder(char *command)
 {
 	char *str = "PATH";
@@ -38,41 +40,46 @@ char *path_finder(char *command)
 
 	return (constructed);
 }
+
+
 /**
- * find_path - Finds the index of an environmental variable.
+ * find_path - Function that finds the index of an environmental variable.
  * @str: Environmental variable that needs to be found.
- * Return: Upon success returns the index of the environmental variable.
- * otherwise returns -1.
+ * Return: Index of the environmental variable upon success.
+ * And -1 if otherwise.
  */
+
 int find_path(char *str)
 {
-	int i;
+	int x;
 	int len;
-	int j;
+	int y;
 
 	len = str_len(str);
-	for (i = 0; environ[i] != NULL; i++)
+	for (x = 0; environ[x] != NULL; x++)
 	{
-		for (j = 0; j < len; j++)
+		for (y = 0; y < len; y++)
 		{
-			if (environ[i][j] != str[j])
+			if (environ[x][y] != str[y])
 				break;
 		}
-		if (j == len && environ[i][j] == '=')
-			return (i);
+		if (y == len && environ[x][y] == '=')
+			return (x);
 	}
 	return (-1);
 }
 
 /**
- * tokenize_path - Separates a string representing paths as an array
- * of strings contining the path directories.
+ * tokenize_path - Function that separates a string representing paths
+ * as an array of strings contining the path directories.
  * @index: Index of the path in the environment variables.
  * @str: string to separate and tokenize.
- * Return: Upon success a NULL terminated array of pointer to strings.
+ *
+ * Return: A NULL terminated array of pointer to strings upon success.
  * Otherwise returns NULL. Note!: Do not forget to free alocated
  * memory on receiving function or when possible.
  */
+
 char **tokenize_path(int index, char *str)
 {
 	char *env_var;
@@ -83,7 +90,6 @@ char **tokenize_path(int index, char *str)
 
 	len = str_len(str);
 	token_count = 0;
-	/*Moving the pointer len of str plus = sign*/
 	env_var = environ[index] + (len + 1);
 	path_tokens = token_interface(env_var, delim, token_count);
 	if (path_tokens == NULL)
@@ -98,9 +104,11 @@ char **tokenize_path(int index, char *str)
  * @path_tokens: A pointer to an array of strings representing the different
  * paths contained in the PATH environmental varible.
  * @command: Represents a command. For example ls, echo, pwd, /bin/ls etc.
- * Return: Upon success a string with the upper most directory containing
- * the command file. Otherwise returns NULL.
+ *
+ * Return: Upon success, string with the upper most directory containing
+ * the command file. If otherwise, returns NULL.
  */
+
 char *search_directories(char **path_tokens, char *command)
 {
 	int i, s;
@@ -138,16 +146,18 @@ char *search_directories(char **path_tokens, char *command)
 }
 
 /**
- * build_path - Combines two strings one representing the path directory and
- * one representing the command file.
+ * build_path - Function that combines two strings.
+ * one representing the path directory and another, the command file.
  * @directory: Represents a directory in the path.
  * @command: Represents a file in a directory of the path.
+ *
  * Return: Upon success a string representing the full path of a command.
- * Otherwise NULL.
+ * If Otherwise, returns NULL.
  */
+
 char *build_path(char *directory, char *command)
 {
-	int i, j;
+	int x, y;
 	int dir_len;
 	int command_len;
 	int len;
@@ -163,15 +173,15 @@ char *build_path(char *directory, char *command)
 	if (built == NULL)
 		return (NULL);
 
-	for (i = 0; i < len; i++)
+	for (x = 0; x < len; x++)
 	{
-		for (j = 0; directory[j] != '\0'; j++, i++)
-			built[i] = directory[j];
-		built[i] = '/';
-		i++;
-		for (j = 0; command[j] != '\0'; j++, i++)
-			built[i] = command[j];
+		for (y = 0; directory[y] != '\0'; y++, i++)
+			built[x] = directory[y];
+		built[x] = '/';
+		x++;
+		for (y = 0; command[y] != '\0'; y++, x++)
+			built[x] = command[y];
 	}
-	built[--i] = '\0';
+	built[--x] = '\0';
 	return (built);
 }
