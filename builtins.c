@@ -34,19 +34,19 @@ void _cd(char *line)
 }
 
 /**
- * env_b - Function that prints environmental variables in the current shell.
+ * _env - Function that prints environmental variables in the current shell.
  * @line: A string representing the input from the user.
  */
 
-void env_b(__attribute__((unused))char *line)
+void _env(__attribute__((unused))char *line)
 {
-	int i;
-	int j;
+	int x;
+	int y;
 
-	for (i = 0; environ[i] != NULL; i++)
+	for (x = 0; environ[x] != NULL; x++)
 	{
-		for (j = 0; environ[i][j] != '\0'; j++)
-			write(STDOUT_FILENO, &environ[i][j], 1);
+		for (y = 0; environ[x][y] != '\0'; y++)
+			write(STDOUT_FILENO, &environ[x][y], 1);
 		write(STDOUT_FILENO, "\n", 1);
 	}
 }
@@ -71,7 +71,7 @@ void u_exit(char *line)
 
 void (*check_built_ins(char *str))(char *str)
 {
-	int i;
+	int x;
 
 	builtin_t buildin[] = {
 		{"exit", u_exit},
@@ -80,11 +80,11 @@ void (*check_built_ins(char *str))(char *str)
 		{NULL, NULL}
 	};
 
-	for (i = 0; buildin[i].built != NULL; i++)
+	for (x = 0; buildin[x].built != NULL; x++)
 	{
-		if (_strcmp(str, buildin[i].built) == 0)
+		if (_strcmp(str, buildin[x].built) == 0)
 		{
-			return (buildin[i].f);
+			return (buildin[x].f);
 		}
 	}
 	return (NULL);
