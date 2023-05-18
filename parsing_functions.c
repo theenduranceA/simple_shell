@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * parse_line - Parses the command line looking for commands and argumements.
  * This function it is also in charged of freeing memory that is not longer
@@ -9,9 +10,10 @@
  * entered into the shell.
  * @av: Name of the program running the shell
  */
+
 void parse_line(char *line, size_t size, int command_counter, char **av)
 {
-	int i;
+	int x;
 	ssize_t read_len;
 	int token_count;
 	char **param_array;
@@ -28,11 +30,11 @@ void parse_line(char *line, size_t size, int command_counter, char **av)
 			single_free(2, param_array, line);
 			return;
 		}
-		i = built_in(param_array, line);
-		if (i == -1)
+		x = built_in(param_array, line);
+		if (x == -1)
 			create_child(param_array, line, command_counter, av);
-		for (i = 0; param_array[i] != NULL; i++)
-			free(param_array[i]);
+		for (x = 0; param_array[x] != NULL; x++)
+			free(param_array[x]);
 		single_free(2, param_array, line);
 	}
 	else
@@ -40,19 +42,20 @@ void parse_line(char *line, size_t size, int command_counter, char **av)
 }
 
 /**
- * create_child - Creates a child in order to execute another program.
- * @param_array: An array of pointers to strings containing the possible name
- * of a program and its parameters. This array is NULL terminated.
+ * create_child - Creates a child process in order to execute another program.
+ * @param_array: An array of pointers to strings containing the possible
+ * name of a program and its parameters. This array is NULL terminated.
  * @line: The contents of the read line.
- * @count: A counter keeping track of how many commands have been entered
- * into the shell.
+ * @count: A counter keeping track of the number commands
+ * entered into the shell.
  * @av: Name of the program running the shell
  */
+
 void create_child(char **param_array, char *line, int count, char **av)
 {
 	pid_t id;
 	int status;
-	int i;
+	int x;
 	int check;
 	struct stat buf;
 	char *tmp_command;
@@ -65,19 +68,17 @@ void create_child(char **param_array, char *line, int count, char **av)
 		command = path_finder(param_array[0]);
 		if (command == NULL)
 		{
-			/*Looking for file in current directory*/
 			check = stat(tmp_command, &buf);
 			if (check == -1)
 			{
 				error_printing(av[0], count, tmp_command);
 				print_str(": not found", 0);
 				single_free(2, line, tmp_command);
-				for (i = 1; param_array[i]; i++)
-					free(param_array[i]);
+				for (x = 1; param_array[x]; x++)
+					free(param_array[x]);
 				free(param_array);
 				exit(100);
 			}
-			/*file exist in cwd or has full path*/
 			command = tmp_command;
 		}
 		param_array[0] = command;
@@ -92,14 +93,16 @@ void create_child(char **param_array, char *line, int count, char **av)
 }
 
 /**
- * token_interface - Meant to interact with other token functions, and make
- * them more accessible to other parts of the program.
+ * token_interface - Function meant to interact with other token functions, and
+ * make them more accessible to other parts of the program.
  * @line: A string containing the raw user input.
  * @delim: A constant string containing the desired delimeter to tokenize line.
  * @token_count: A holder for the amount of tokens in a string.
- * Return: Upon success an array of tokens representing the command. Otherwise
- * returns NULL.
+ *
+ * Return: Upon success an array of tokens representing the command.
+ * Otherwise returns NULL.
  */
+
 char **token_interface(char *line, const char *delim, int token_count)
 {
 	char **param_array;
@@ -126,12 +129,14 @@ char **token_interface(char *line, const char *delim, int token_count)
  * @token_count: An integer representing the amount of tokens in the array.
  * @line: String that is separated by an specified delimeter
  * @delim: The desired delimeter to separate tokens.
+ *
  * Return: Upon success a NULL terminated array of pointer to strings.
  * Otherwise returns NULL.
  */
+
 char **tokenize(int token_count, char *line, const char *delim)
 {
-	int i;
+	int x;
 	char **buffer;
 	char *token;
 	char *line_cp;
@@ -141,34 +146,36 @@ char **tokenize(int token_count, char *line, const char *delim)
 	if (buffer == NULL)
 		return (NULL);
 	token = strtok(line_cp, delim);
-	for (i = 0; token != NULL; i++)
+	for (x = 0; token != NULL; x++)
 	{
-		buffer[i] = _strdup(token);
+		buffer[x] = _strdup(token);
 		token = strtok(NULL, delim);
 	}
-	buffer[i] = NULL;
+	buffer[x] = NULL;
 	free(line_cp);
 	return (buffer);
 }
 
 /**
- * count_token - Counts tokens in the passed string.
+ * count_token - Function that counts tokens in the passed string.
  * @line: String that is separated by an specified delimeter
  * @delim: The desired delimeter to separate tokens.
+ *
  * Return: Upon success the total count of the tokens. Otherwise -1.
  */
+
 int count_token(char *line, const char *delim)
 {
 	char *str;
 	char *token;
-	int i;
+	int x;
 
 	str = _strdup(line);
 	if (str == NULL)
 		return (-1);
 	token = strtok(str, delim);
-	for (i = 0; token != NULL; i++)
+	for (x = 0; token != NULL; x++)
 		token = strtok(NULL, delim);
 	free(str);
-	return (i);
+	return (x);
 }
