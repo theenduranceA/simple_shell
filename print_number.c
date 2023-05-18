@@ -1,10 +1,11 @@
 #include "shell.h"
 
 /**
- * print_number - Prints an unsigned number
+ * print_number - Function that prints an unsigned number
  * @n: unsigned integer to be printed
  * Return: The amount of numbers printed
  */
+
 int print_number(int n)
 {
 	int div;
