@@ -175,7 +175,7 @@ char *build_path(char *directory, char *command)
 
 	for (x = 0; x < len; x++)
 	{
-		for (y = 0; directory[y] != '\0'; y++, i++)
+		for (y = 0; directory[y] != '\0'; y++, x++)
 			built[x] = directory[y];
 		built[x] = '/';
 		x++;
