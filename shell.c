@@ -10,7 +10,8 @@
 int main(int ac, char **av, char **env)
 {
 	char *buffer = NULL, **command = NULL;
-	size_t buf_size = 0, chars_readed = 0;
+	size_t buf_size = 0;
+	ssize_t chars_readed = 0;
 	int cicles = 0;
 	(void)ac;
 
@@ -20,9 +21,7 @@ int main(int ac, char **av, char **env)
 		prompt();
 		signal(SIGINT, handle);
 		chars_readed = getline(&buffer, &buf_size, stdin);
-		if (chars_readed == (size_t)-1)
-			return (EXIT_FAILURE);
-		if (chars_readed == (size_t)EOF)
+		if (chars_readed == EOF)
 			_EOF(buffer);
 		else if (*buffer == '\n')
 			free(buffer);
@@ -41,6 +40,8 @@ int main(int ac, char **av, char **env)
 		fflush(stdin);
 		buffer = NULL, buf_size = 0;
 	}
+	if (chars_readed == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
