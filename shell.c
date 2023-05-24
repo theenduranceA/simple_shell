@@ -10,8 +10,7 @@
 int main(int ac, char **av, char **env)
 {
 	char *buffer = NULL, **command = NULL;
-	size_t buf_size = 0;
-	ssize_t chars_readed = 0;
+	size_t buf_size = 0, chars_readed = 0;
 	int cicles = 0;
 	(void)ac;
 
@@ -21,15 +20,27 @@ int main(int ac, char **av, char **env)
 		prompt();
 		signal(SIGINT, handle);
 		chars_readed = getline(&buffer, &buf_size, stdin);
-		if (chars_readed == EOF)
+		if (chars_readed == (size_t)-1)
+		{
+			free(buffer);
+			break;
+		}
+		if (chars_readed == (size_t)EOF)
 			_EOF(buffer);
 		else if (*buffer == '\n')
+		{
 			free(buffer);
+			continue;
+		}
 		else
 		{
 			buffer[_strlen(buffer) - 1] = '\0';
 			command = tokening(buffer, " \0");
-			free(buffer);
+			if (command == NULL)
+			{
+				perror("unable to allocate memory");
+				continue;
+			}	
 			if (_strcmp(command[0], "exit") != 0)
 				shell_exit(command);
 			else if (_strcmp(command[0], "cd") != 0)
@@ -37,11 +48,8 @@ int main(int ac, char **av, char **env)
 			else
 				create_child(command, av[0], env, cicles);
 		}
-		fflush(stdin);
 		buffer = NULL, buf_size = 0;
 	}
-	if (chars_readed == -1)
-		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -66,6 +74,7 @@ void handle(int signals)
 {
 	(void)signals;
 	write(STDOUT_FILENO, "\n$: ", 4);
+	fflush(stdout);
 }
 
 

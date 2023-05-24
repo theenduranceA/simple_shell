@@ -21,8 +21,7 @@ char **tokening(char *buffer, const char *s)
 	{
 		perror("Unable to allocate buffer");
 		free(buffer);
-		free_dp(commands);
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 
 	token = strtok(buffer, s);

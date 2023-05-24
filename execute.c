@@ -1,7 +1,5 @@
 #include "shell.h"
 
-extern char **environ;
-
 /**
  * execute - A function that executes a command.
  * @command: The pointer to tokienized command
@@ -10,6 +8,7 @@ extern char **environ;
  * @cicles: Number of executed cicles.
  * Return: Nothing.
  */
+
 void execute(char **command, char *name, char **env, int cicles)
 {
 	char **pathways = NULL, *full_path = NULL;
@@ -52,10 +51,11 @@ void execute(char **command, char *name, char **env, int cicles)
 
 /**
  * print_env - A function that prints all enviromental variables.
- * @env: The pointer to enviromental variables.
+ * @environ: The pointer to enviromental variables.
  * Return: Nothing.
  */
-void print_env(char **environ) 
+
+void print_env(char **environ)
 {
 	int i = 0;
 	int j = 0;
@@ -75,11 +75,13 @@ void print_env(char **environ)
 
 
 /**
- * _getPATH - A function to gets the full value from.
+ * _getPATH - A function that gets the full value from
  * enviromental variable PATH.
  * @env: The pointer to enviromental variables.
+ *
  * Return: All tokenized pathways for commands.
  */
+
 char **_getPATH(char **env)
 {
 	char *pathvalue = NULL, **pathways = NULL;
@@ -106,8 +108,10 @@ char **_getPATH(char **env)
  * @name: The name of the shell.
  * @cicles: Number of cicles.
  * @command: The pointer to tokenized command.
+ *
  * Return: Nothing.
  */
+
 void msgerror(char *name, int cicles, char **command)
 {
 	char c;
