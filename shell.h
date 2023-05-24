@@ -1,64 +1,62 @@
-#ifndef SHELL_H
-#define SHELL_H
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#ifndef _SHELL_H_
+#define _SHELL_H_
 #include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <dirent.h>
 #include <sys/stat.h>
-#include <stdarg.h>
-#include <signal.h>
-#define PROMPT "$: "
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 
+/*==================================================*/
+/*============     Shell_Init       ==============*/
+/*==================================================*/
 
-/**
- * struct builtin_d - Defines the builtins functions.
- * @built: The name of the build in command.
- * @f: A pointer to the right builtin function.
- */
+int main(int ac, char **av, char **env);
+void prompt(void);
+void handle(int signals);
+void _EOF(char *buffer);
+void shell_exit(char **command);
 
-typedef struct builtin_d
-{
-	char *built;
-	void (*f)(char *);
-} builtin_t;
+/*==================================================*/
+/*============     create_child       ==============*/
+/*==================================================*/
 
-extern char **environ;
+void create_child(char **command, char *name, char **env, int cicles);
+int change_dir(const char *path);
 
-char **token_interface(char *, const char *, int);
-int count_token(char *, const char *);
-char **tokenize(int, char *, const char *);
-void create_child(char **, char *, int, char **);
-void parse_line(char *, size_t, int, char **);
-char *path_finder(char *);
-int str_len(char *);
-int find_path(char *);
-char **tokenize_path(int, char *);
-char *search_directories(char **, char *);
-char *build_path(char *, char *);
-void double_free(char **);
-void single_free(int, ...);
+/*==================================================*/
+/*============        Execute       ==============*/
+/*==================================================*/
 
-/*Builtin functions*/
-int built_in(char **, char *);
-void (*check_built_ins(char *))(char *);
-void u_exit(char *);
-void _env(char *);
-void _cd(char *);
+void execute(char **command, char *name, char **env, int cicles);
+void print_env(char **env);
+char **_getPATH(char **env);
+void msgerror(char *name, int cicles, char **command);
 
-/*custom library functions*/
-int _strcmp(char *, char *);
-char *_strdup(char *);
-void print_str(char *, int);
-int print_number(int);
-int _write_char(char);
+/*==================================================*/
+/*============          Tokening      ==============*/
+/*==================================================*/
 
-/* Helper functions*/
-void error_printing(char *, int, char *);
-void exec_error(char *, int, char *);
+char **tokening(char *buffer, const char *s);
 
-#endif
+/*==================================================*/
+/*============     Free Memory      ==============*/
+/*==================================================*/
+
+void free_dp(char **command);
+void free_exit(char **command);
+
+/*==================================================*/
+/*============  Auxiliar_Functions    ==============*/
+/*==================================================*/
+
+int _strcmp(char *s1, char *s2);
+unsigned int _strlen(char *s);
+char *_strcpy(char *dest, char *src);
+int _atoi(char *s);
+char *_strcat(char *dest, char *src);
+
+/*============ END      ==============*/
+
+#endif /* _SHELL_H_ */
