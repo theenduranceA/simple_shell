@@ -20,27 +20,15 @@ int main(int ac, char **av, char **env)
 		prompt();
 		signal(SIGINT, handle);
 		chars_readed = getline(&buffer, &buf_size, stdin);
-		if (chars_readed == (size_t)-1)
-		{
-			free(buffer);
-			break;
-		}
-		if (chars_readed == (size_t)EOF)
+		if (chars_readed == EOF)
 			_EOF(buffer);
 		else if (*buffer == '\n')
-		{
 			free(buffer);
-			continue;
-		}
 		else
 		{
 			buffer[_strlen(buffer) - 1] = '\0';
 			command = tokening(buffer, " \0");
-			if (command == NULL)
-			{
-				perror("unable to allocate memory");
-				continue;
-			}	
+			free(buffer);
 			if (_strcmp(command[0], "exit") != 0)
 				shell_exit(command);
 			else if (_strcmp(command[0], "cd") != 0)
@@ -50,6 +38,8 @@ int main(int ac, char **av, char **env)
 		}
 		buffer = NULL, buf_size = 0;
 	}
+	if (chars_readed == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
