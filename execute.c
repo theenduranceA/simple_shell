@@ -1,5 +1,7 @@
 #include "shell.h"
 
+extern char **environ;
+
 /**
  * execute - A function that executes a command.
  * @command: The pointer to tokienized command
@@ -15,7 +17,7 @@ void execute(char **command, char *name, char **env, int cicles)
 	unsigned int i = 0;
 
 	if (_strcmp(command[0], "env") != 0)
-		print_env(env);
+		print_env(environ);
 	if (stat(command[0], &st) == 0)
 	{
 		if (execve(command[0], command, env) < 0)
@@ -53,14 +55,19 @@ void execute(char **command, char *name, char **env, int cicles)
  * @env: The pointer to enviromental variables.
  * Return: Nothing.
  */
-void print_env(char **env)
+void print_env(char **environ) 
 {
-	size_t i = 0, len = 0;
+	int i = 0;
+	int j = 0;
 
-	while (env[i])
+	while (environ[i] != NULL)
 	{
-		len = _strlen(env[i]);
-		write(STDOUT_FILENO, env[i], len);
+		j = 0;
+		while (environ[i][j] != '\0')
+		{
+			write(STDOUT_FILENO, &environ[i][j], 1);
+			j++;
+		}
 		write(STDOUT_FILENO, "\n", 1);
 		i++;
 	}

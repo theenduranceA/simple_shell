@@ -30,7 +30,7 @@ int change_dir(const char *path);
 /*==================================================*/
 
 void execute(char **command, char *name, char **env, int cicles);
-void print_env(char **env);
+void print_env(char **environ);
 char **_getPATH(char **env);
 void msgerror(char *name, int cicles, char **command);
 
