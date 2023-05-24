@@ -20,12 +20,12 @@ int main(int ac, char **av, char **env)
 		prompt();
 		signal(SIGINT, handle);
 		chars_readed = getline(&buffer, &buf_size, stdin);
-		if (chars_readed == -1)
+		if (chars_readed == (size_t)-1)
 		{
 			free(buffer);
 			break;
 		}
-		if (chars_readed == EOF)
+		if (chars_readed == (size_t)EOF)
 			_EOF(buffer);
 		else if (*buffer == '\n')
 		{
