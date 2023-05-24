@@ -21,7 +21,7 @@ int main(int ac, char **av, char **env)
 		signal(SIGINT, handle);
 		chars_readed = getline(&buffer, &buf_size, stdin);
 		if (chars_readed == (size_t)-1)
-			return (0);
+			return (EXIT_FAILURE);
 		if (chars_readed == (size_t)EOF)
 			_EOF(buffer);
 		else if (*buffer == '\n')
@@ -65,7 +65,6 @@ void handle(int signals)
 {
 	(void)signals;
 	write(STDOUT_FILENO, "\n$: ", 4);
-	fflush(stdout);
 }
 
 
