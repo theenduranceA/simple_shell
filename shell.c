@@ -41,6 +41,7 @@ int main(int ac, char **av, char **env)
 		buffer = NULL, buf_size = 0;
 	}
 	if (chars_readed == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
